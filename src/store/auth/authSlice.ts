@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { AuthStatus } from '../../auth/enums/authStatus'
 
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        status: 'checking', // 'authenticated','not-authenticated',
+        status: AuthStatus.NOT_AUTHENTICATED + '', // 'authenticated','not-authenticated',
         user: {},
         errorMessage: undefined,
     },
