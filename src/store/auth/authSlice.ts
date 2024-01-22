@@ -4,7 +4,8 @@ import { AuthStatus } from '../../auth/enums/authStatus'
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        status: AuthStatus.NOT_AUTHENTICATED + '', // 'authenticated','not-authenticated',
+        // status: AuthStatus.NOT_AUTHENTICATED + '',
+        status: AuthStatus.AUTHENTICATED + '', 
         user: {},
         errorMessage: undefined,
     },

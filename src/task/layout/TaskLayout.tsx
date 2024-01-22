@@ -1,5 +1,11 @@
-export const TaskLayout = () => {
+import { ReactNode } from 'react'
+
+export const TaskLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div>TaskLayout</div>
+    <div className="w-screen h-screen">
+      {/* <Header /> */}
+
+      {children}
+    </div>
   )
 }
