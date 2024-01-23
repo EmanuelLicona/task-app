@@ -1,12 +1,29 @@
 import { useState } from 'react'
 import { GrFormAdd, GrFormClose } from 'react-icons/gr'
+import { IBoard } from '../../interfaces/IBoard'
 
-export const BoardLast = () => {
+export const BoardLast = ({onAddBoard}: {onAddBoard: (board: IBoard) => void}) => {
 
   const [isAddBoard, setIsAddBoard] = useState(false)
+  const [title, setTitle] = useState('')
+
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value)
+  }
 
   const handleChangeView = () => {
     setIsAddBoard(!isAddBoard)
+  }
+
+  function handleAddNewBoard(): void {
+    const newBoard: IBoard = {
+      id: Date.now(),
+      title: title,
+    }
+    onAddBoard(newBoard)
+
+    setTitle('')
+    setIsAddBoard(false)
   }
 
   return (
@@ -30,12 +47,15 @@ export const BoardLast = () => {
             className='w-full px-2 border rounded-md
               mb-2
             '
+            value={title}
+            onChange={handleChangeTitle}
             placeholder='Nombre de la lista'
           />
 
           <div className='flex items-center gap-10'>
             <button
               className='bg-slate-400 px-2 py-1 rounded-md ms-2'
+              onClick={handleAddNewBoard}
             >Crear</button>
             <GrFormClose className='text-slate-400 text-2xl cursor-pointer' onClick={handleChangeView} />
           </div>

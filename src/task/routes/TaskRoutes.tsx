@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from 'react-router-dom'
-import { WorkspacePage } from '../pages/WorkspacePage'
+import { ListWorkspacePage } from '../pages/ListWorkspacePage'
 import { BoardPage } from '../pages/BoardPage'
 import { TaskLayout } from '../layout/TaskLayout'
 
@@ -7,7 +7,7 @@ export const TaskRoutes = () => {
   return (
     <TaskLayout>
       <Routes>
-        <Route path="workspace" element={<WorkspacePage />} />
+        <Route path="workspace" element={<ListWorkspacePage />} />
         <Route path="board/:boardId" element={<BoardPage />} />
 
         <Route path="/*" element={<Navigate to="/workspace" />} />

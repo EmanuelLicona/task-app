@@ -1,8 +1,9 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { Modal } from '../../common/componets/Modal'
 import { WorkspaceContainer } from '../components/WorkspaceContainer'
 import { WorkspaceItem } from '../components/WorkspaceItem'
 import { useForm } from '../../hooks/useForm'
+import { useWorkspaceStore } from '../../hooks/useWorkspaceStore'
 
 
 const initialFormModal = {
@@ -10,14 +11,19 @@ const initialFormModal = {
   description: ''
 }
 
-export const WorkspacePage = () => {
+export const ListWorkspacePage = () => {
+
+  const {
+    workspaces,
+    isLoading: isLoadingWorkspace,
+    onLoadingWorkspaces
+  } = useWorkspaceStore()
 
   const {
     title, description,
     onInputChange,
     onResetForm
   } = useForm(initialFormModal)
-
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -31,6 +37,12 @@ export const WorkspacePage = () => {
     setIsModalOpen(false)
     onResetForm()
   }
+
+
+
+  useEffect(() => {
+    onLoadingWorkspaces()
+  }, [])
 
   return (
     <div className='flex flex-col justify-center  sm:p-20'>
@@ -51,7 +63,10 @@ export const WorkspacePage = () => {
       <div className=''>
         <h2 className='text-2xl mb-4'>Vistos recientemente</h2>
         <WorkspaceContainer>
-          <WorkspaceItem />
+          {
+            isLoadingWorkspace ? <p>Cargando...</p> : 
+            <WorkspaceItem />
+          }
         </WorkspaceContainer>
 
       </div>
@@ -59,9 +74,21 @@ export const WorkspacePage = () => {
       <div className='mt-10'>
         <h2 className='text-2xl mb-4'>Tus tableros </h2>
         <WorkspaceContainer>
-          <WorkspaceItem />
-          <WorkspaceItem />
-          <WorkspaceItem />
+
+          {
+            (workspaces && !isLoadingWorkspace) && workspaces.map(workspace => (
+              <WorkspaceItem
+                key={workspace.id}
+                title={workspace.title}
+                description={workspace.description}
+              />
+            ))
+          }
+
+          {
+            isLoadingWorkspace ? <p>Cargando...</p> : ''
+          }
+
         </WorkspaceContainer>
       </div>
 
