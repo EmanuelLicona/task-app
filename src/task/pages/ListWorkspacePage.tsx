@@ -4,7 +4,7 @@ import { WorkspaceContainer } from '../components/WorkspaceContainer'
 import { WorkspaceItem } from '../components/WorkspaceItem'
 import { useForm } from '../../hooks/useForm'
 import { useWorkspaceStore } from '../../hooks/useWorkspaceStore'
-
+import { useNavigate } from 'react-router-dom'
 
 const initialFormModal = {
   title: '',
@@ -15,8 +15,11 @@ export const ListWorkspacePage = () => {
 
   const {
     workspaces,
+    workspaceSelected,
     isLoading: isLoadingWorkspace,
-    onLoadingWorkspaces
+    onLoadingWorkspaces,
+    onCreateNewWorkspace,
+    onSelectWorkspace
   } = useWorkspaceStore()
 
   const {
@@ -26,11 +29,19 @@ export const ListWorkspacePage = () => {
   } = useForm(initialFormModal)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const navigate = useNavigate()
 
   const handleSudbmit = (e: FormEvent) => {
     e.preventDefault()
 
+    onCreateNewWorkspace({
+      workspaceId: '',
+      title,
+      description
+    })
+
     setIsModalOpen(false)
+    onResetForm()
   }
 
   const cancelModal = () => {
@@ -38,11 +49,19 @@ export const ListWorkspacePage = () => {
     onResetForm()
   }
 
+  const handleOnClickWorkspace = (workspaceId: string) => {
+    onSelectWorkspace(workspaceId)    
+  }
 
 
   useEffect(() => {
     onLoadingWorkspaces()
   }, [])
+
+  useEffect(() => {
+    if (!workspaceSelected.workspaceId) return
+    navigate(`/b/${workspaceSelected.workspaceId}`)
+  }, [workspaceSelected])
 
   return (
     <div className='flex flex-col justify-center  sm:p-20'>
@@ -64,8 +83,13 @@ export const ListWorkspacePage = () => {
         <h2 className='text-2xl mb-4'>Vistos recientemente</h2>
         <WorkspaceContainer>
           {
-            isLoadingWorkspace ? <p>Cargando...</p> : 
-            <WorkspaceItem />
+            isLoadingWorkspace ? <p>Cargando...</p> :
+              <WorkspaceItem
+                workspaceId={'sdfdsfsdf'}
+                title={'Tareas pendientes'}
+                description={'Tareas pendientes'}
+                handleOnClickWorkspace={handleOnClickWorkspace}
+              />
           }
         </WorkspaceContainer>
 
@@ -76,11 +100,13 @@ export const ListWorkspacePage = () => {
         <WorkspaceContainer>
 
           {
-            (workspaces && !isLoadingWorkspace) && workspaces.map(workspace => (
+            (workspaces && !isLoadingWorkspace) && workspaces.map((workspace, index) => (
               <WorkspaceItem
-                key={workspace.id}
+                key={index}
+                workspaceId={workspace.workspaceId}
                 title={workspace.title}
                 description={workspace.description}
+                handleOnClickWorkspace={handleOnClickWorkspace}
               />
             ))
           }

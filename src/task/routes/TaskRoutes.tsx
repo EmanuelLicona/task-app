@@ -8,7 +8,7 @@ export const TaskRoutes = () => {
     <TaskLayout>
       <Routes>
         <Route path="workspace" element={<ListWorkspacePage />} />
-        <Route path="board/:boardId" element={<BoardPage />} />
+        <Route path="b/:workspaceId" element={<BoardPage />} />
 
         <Route path="/*" element={<Navigate to="/workspace" />} />
       </Routes>

@@ -1,12 +1,14 @@
-// import { useDispatch, useSelector } from 'react-redux';
+// import { RootState } from '../store/store'
+import { onLogout } from '../store/auth/authSlice'
+import { useDispatch } from 'react-redux'
 
 // import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store';
 
 
 export const useAuthStore = () => {
 
-    // const { status, user, errorMessage } = useSelector( state => state.auth );
-    // const dispatch = useDispatch();
+    // const { onLogout  } = useSelector( (state: RootState) => state.auth );
+    const dispatch = useDispatch();
 
     // const startLogin = async({ email, password }) => {
     //     dispatch( onChecking() );
@@ -61,6 +63,9 @@ export const useAuthStore = () => {
     //     dispatch(onLogout());
     // }
 
+    const startLogout = () => {
+        dispatch( onLogout('') );
+    }
 
 
     return {
@@ -72,7 +77,7 @@ export const useAuthStore = () => {
         // //* Métodos
         // checkAuthToken,
         // startLogin,
-        // startLogout,
+        startLogout,
         // startRegister,
     }
 

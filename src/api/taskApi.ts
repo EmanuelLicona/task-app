@@ -1,27 +1,24 @@
 import axios from 'axios'
-// import { getEnvVariables } from '../helpers'
-
-// const { VITE_API_URL } = getEnvVariables()
+import { onLogout } from '../store/auth/authSlice'
 
 export const taskApi = axios.create({
-  baseURL: 'https://apimocha.com/task-app'
+  baseURL: 'http://localhost:3000/api/v1',
+  withCredentials: true
 })
 
-// const calendarApi = axios.create({
-//   baseURL: VITE_API_URL
-// })
-
-// Todo: configurar interceptores
-// calendarApi.interceptors.request.use(config => {
-
-//   config.headers = {
-//     ...config.headers,
-//     'x-token': localStorage.getItem('token')
-//   }
-
-//   return config
-// })
-
-
+export const axiosInterceptor = (store: any) => {
+  // intercept the response
+  taskApi.interceptors.response.use(
+    (res) => res,
+    async (err) => {
+      const status = err?.response?.status || null;
+      // if unauthorized redirect to login page
+      if (status === 401) {
+        await store.dispatch(onLogout(''));
+      }
+      return Promise.reject(err);
+    }
+  );
+};
 
 

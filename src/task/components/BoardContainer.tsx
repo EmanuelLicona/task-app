@@ -37,7 +37,7 @@ export const BoardContainer = () => {
         ))}
 
         <BoardLast onAddBoard={onAddBoard} />
-
+          
       </div>
 
     </div>

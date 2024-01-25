@@ -1,7 +1,7 @@
 import { IBoard } from './IBoard'
 
 export interface IWorkspace {
-  id: number
+  workspaceId: string
   title: string
   description: string
   boards?: IBoard[]

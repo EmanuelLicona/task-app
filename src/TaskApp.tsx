@@ -1,7 +1,13 @@
+import { Provider } from 'react-redux'
 import { AppRouter } from './router/AppRouter'
+import { store } from './store/store'
+import { axiosInterceptor } from './api/taskApi'
 
 export const TaskApp = () => {
+  axiosInterceptor(store)
   return (
-    <AppRouter />
+    <Provider store={store}>
+      <AppRouter />
+    </Provider>
   )
 }
